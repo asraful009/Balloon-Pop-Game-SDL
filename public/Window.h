@@ -10,19 +10,19 @@
 struct TextItem
 {
     std::string text;
-    int x, y;
+    float x, y;
     SDL_Color color;
 };
 
 struct LineItem
 {
-    int x1, y1, x2, y2;
+    float x1, y1, x2, y2;
     SDL_Color color;
 };
 
 struct ImageItem
 {
-    int x, y;
+    float x, y;
     SDL_Texture *texture;
 };
 
@@ -36,9 +36,9 @@ public:
 
     void run();
     bool isRunning() const { return m_running; }
-    void drawText(const std::string &text, int x, int y, SDL_Color color);
-    void drawLine(int x1, int y1, int x2, int y2, SDL_Color color);
-    void drawImage(SDL_Texture *texture, int x, int y);
+    void drawText(const std::string &text, float x, float y, SDL_Color color);
+    void drawLine(float x1, float y1, float x2, float y2, SDL_Color color);
+    void drawImage(SDL_Texture *texture, float x, float y);
 
     SDL_Texture *loadTexture(const std::string &path);
     void setUpdateCallback(UpdateCallback callback);
@@ -53,8 +53,8 @@ public:
         return color;
     }
 
-    int getMouseX() const { return m_mouseX; }
-    int getMouseY() const { return m_mouseY; }
+    float getMouseX() const { return static_cast<float>(m_mouseX); }
+    float getMouseY() const { return static_cast<float>(m_mouseY); }
     bool isMouseButtonDown(int button) const { return m_mouseButtons & SDL_BUTTON(button); }
 
 private:
@@ -62,7 +62,7 @@ private:
     void render();
     void renderText(const TextItem &item);
     void renderLine(const LineItem &item);
-    void renderImage(const ImageItem &item);
+    void renderImage(const ImageItem &item, float x, float y);
 
     Uint32 m_lastTime = 0;
     SDL_Window *m_window = nullptr;

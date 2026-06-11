@@ -99,9 +99,9 @@ void Window::render()
         m_updateCallback(dt);
     }
 
-    for (const auto &item : m_images)
+    for (const auto &item : m_images)    
     {
-        renderImage(item);
+        renderImage(item, static_cast<float>(item.x), static_cast<float>(item.y));
     }
 
     for (const auto &line : m_lines)
@@ -131,17 +131,17 @@ void Window::run()
     }
 }
 
-void Window::drawText(const std::string &text, int x, int y, SDL_Color color)
+void Window::drawText(const std::string &text, float x, float y, SDL_Color color)
 {
     m_texts.push_back({text, x, y, color});
 }
 
-void Window::drawLine(int x1, int y1, int x2, int y2, SDL_Color color)
+void Window::drawLine(float x1, float y1, float x2, float y2, SDL_Color color)
 {
     m_lines.push_back({x1, y1, x2, y2, color});
 }
 
-void Window::drawImage(SDL_Texture *texture, int x, int y)
+void Window::drawImage(SDL_Texture *texture, float x, float y)
 {
     m_images.push_back({x, y, texture});
 }
@@ -190,17 +190,15 @@ void Window::renderLine(const LineItem &line)
     SDL_RenderDrawLine(m_renderer, line.x1, line.y1, line.x2, line.y2);
 }
 
-void Window::renderImage(const ImageItem &item)
+void Window::renderImage(const ImageItem &item, float x, float y)
 {
     if (!item.texture)
         return;
-
-    int w = 0, h = 0;
-    SDL_QueryTexture(item.texture, nullptr, nullptr, &w, &h);
+    
 
     SDL_Rect dstRect;
-    dstRect.x = static_cast<int>(item.x);
-    dstRect.y = static_cast<int>(item.y);
+    dstRect.x = x;
+    dstRect.y = y;
     dstRect.w = 32;
     dstRect.h = 32;
 

@@ -9,6 +9,10 @@ struct Pos
 {
     float x;
     float y;
+    float w = 32.0f;
+    float h = 32.0f;
+    float speed;
+
 };
 
 class Balloon
@@ -16,30 +20,25 @@ class Balloon
 private:
     Pos m_pos;
     SDL_Texture *m_image;
+    SDL_Texture *m_image_pop;
+    bool popped = false;
     Window *window;
 
 public:
     Balloon(Window *window);
-    Balloon(float x, float y, const std::string &image, Window *window);
+    Balloon(float x, float y, const std::string &image, const std::string &image_pop, Window *window);
 
     // Getters
     Pos getXY() const { return m_pos; };
     float getX() const { return m_pos.x; }
     float getY() const { return m_pos.y; }
-    SDL_Texture *getImage() const { return m_image; }
+    SDL_Texture *getImage() const { return popped ? m_image_pop : m_image; }
 
-    // Setters
-    void setXY(float x, float y)
-    {
-        m_pos.x = x;
-        m_pos.y = y;
-    }
-    void setX(float x) { m_pos.x = x; }
-    void setY(float y) { m_pos.y = y; }
 
     // Utility
-    void move(float dx, float dy);
+    void move(float dt);
     void render() const;
+    bool isPop(float mx, float my);
 
 private:
     SDL_Texture *imageToTexture(std::string imagePath);

@@ -83,9 +83,9 @@ int main()
     long count = 0;
     float timeAccumulator = 0.0f;
     std::vector<Balloon> balloons = {
-        Balloon(100.0f, h - 20.0f, "assets/balloon.png", win),
-        Balloon(200.0f, h - 30.0f, "assets/balloon.png", win),
-        Balloon(300.0f, h - 40.0f, "assets/balloon.png", win)};
+        Balloon(100.0f, h - 20.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
+        Balloon(200.0f, h - 30.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
+        Balloon(300.0f, h - 40.0f, "assets/balloon.png", "assets/balloon_pop.png", win)};
 
     win->setUpdateCallback([&](float dt)
                            {
@@ -99,24 +99,28 @@ int main()
                       "  Y: " + toBengaliNum(win->getMouseY());
         win->drawText(pos, 50, 50, win->hexToRGBA(0x1B26FF));
 
-        int mx = win->getMouseX();
-        int my = win->getMouseY();
+        float mx = win->getMouseX();
+        float my = win->getMouseY();
         win->drawLine(mx - 10, my, mx + 10, my, {0, 255, 0, 255}); // horizontal
         win->drawLine(mx, my - 10, mx, my + 10, {0, 255, 0, 255}); // vertical
 
         // Check left click
-        if (win->isMouseButtonDown(1)) {
+        bool leftClick = win->isMouseButtonDown(1);
+        if (leftClick) {
             win->drawText("ক্লিক!", mx + 15, my - 15, {255, 0, 0, 255});
         }
 
-        win->drawText(getBengaliTime(), 10, 10, win->hexToRGBA(0x2228FF));
-        win->drawLine(10, 25, 200, 25, win->hexToRGBA(0x00ADB5));
-        win->drawLine(10, 28, 200, 28, win->hexToRGBA(0x00ADB5)); 
+        win->drawText(getBengaliTime(), 10.0, 10.0, win->hexToRGBA(0x2228FF));
+        win->drawLine(10.0, 25.0, 200.0, 25.0, win->hexToRGBA(0x00ADB5));
+        win->drawLine(10.0, 28.0, 200.0, 28.0, win->hexToRGBA(0x00ADB5)); 
         for (auto& balloon : balloons) {
-            balloon.move(0, -30 * dt); 
+            if (leftClick) {
+                balloon.isPop(mx, my); // Check if balloon is popped by mouse click
+            }
+            balloon.move(dt); 
             win->drawImage(balloon.getImage(), 
-            static_cast<int>(balloon.getX()), 
-            static_cast<int>(balloon.getY()));
+            static_cast<float>(balloon.getX()), 
+            static_cast<float>(balloon.getY()));
         } });
     win->run();
     delete win;

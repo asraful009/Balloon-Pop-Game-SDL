@@ -16,7 +16,7 @@ Balloon::Balloon(Window *window)
     m_image = imageToTexture("assets/balloon.png");
 }
 
-Balloon::Balloon(float x, float y, const std::string &image, Window *window)
+Balloon::Balloon(float x, float y, const std::string &image, const std::string &image_pop, Window *window)
 {
     if (window == nullptr)
     {
@@ -26,17 +26,21 @@ Balloon::Balloon(float x, float y, const std::string &image, Window *window)
     m_pos = Pos{x, y};
     this->window = window;
     m_image = imageToTexture(image);
+    m_image_pop = imageToTexture(image_pop);
 }
 
-void Balloon::move(float dx, float dy)
+void Balloon::move(float dt)
 {
-    m_pos.x += dx;
-    m_pos.y += dy;
+    if (popped) {
+        m_pos.y += +98.8*dt;
+    } else {
+        m_pos.y += -60.0f * dt;
+        // m_pos.y += dy;
+    }
 }
 
 void Balloon::render() const
 {
-    // drawSprite(m_image, m_pos.x, m_pos.y);
 }
 
 SDL_Texture *Balloon::imageToTexture(std::string imagePath)
@@ -52,4 +56,14 @@ SDL_Texture *Balloon::imageToTexture(std::string imagePath)
         std::cerr << "Failed to load image: " << imagePath << "\n";
     }
     return texture;
+}
+
+bool Balloon::isPop(float mx, float my)
+{
+    if (mx >= m_pos.x && mx < m_pos.x + m_pos.w && my >= m_pos.y && my < m_pos.y + m_pos.h)
+    {
+        popped = true;
+        return true;
+    }
+    return false;
 }
