@@ -20,7 +20,7 @@ private:
 
 public:
     Balloon(Window *window);
-    Balloon(float x, float y, const std::string &image);
+    Balloon(float x, float y, const std::string &image, Window *window);
 
     // Getters
     Pos getXY() const { return m_pos; };

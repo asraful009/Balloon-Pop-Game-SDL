@@ -14,6 +14,7 @@ find_package(SDL2_image REQUIRED)
 add_executable(t3
     main.cpp
     private/Window.cpp
+    private/Balloon.cpp
 )
 
 # Add include path
