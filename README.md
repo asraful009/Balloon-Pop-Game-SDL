@@ -1,19 +1,31 @@
 PopDrop
 =======
 
-A simple balloon popping arcade game made with SDL2.
+A simple balloon-popping arcade game made with SDL2.
+
+Description
+-----------
+
+PopDrop is a fast-paced, arcade-style balloon popping game built 
+entirely from scratch using C/C++ and the SDL2 framework. Test your 
+reflexes and see how many balloons you can pop before the time runs out! 
+It features addictive arcade gameplay, lightweight native performance, 
+and classic retro casual mechanics.
+
 
 How to Run (Linux x86_64)
 -------------------------
 
-1. Open a terminal in this folder
-2. Make the game executable (only needed once):
+1. Extract the downloaded zip file:
+   unzip PopDrop-Linux-x86_64.zip
 
-   chmod +x PopDrop
+2. Open a terminal inside the extracted 'PopDrop-itch' folder.
 
-3. Run the game:
+3. Make the launcher script executable (only needed once):
+   chmod +x run.sh
 
-   ./PopDrop
+4. Run the game:
+   ./run.sh
 
 
 Controls
@@ -26,31 +38,29 @@ Keyboard:
 - ESC = Quit game
 
 
-Requirements
-------------
+How it Works (No Dependencies Needed)
+--------------------------------------
 
-- Linux x86_64 system
-- SDL2
-- SDL2_mixer (if using sound)
-- SDL2_image (if using textures)
+This package includes all necessary SDL2 runtime libraries pre-compiled 
+inside the 'lib/' directory. 
+
+The 'run.sh' script automatically configures the game's library path 
+(LD_LIBRARY_PATH) before launching, so you do not need to install SDL2, 
+SDL2_mixer, or SDL2_image system-wide.
 
 
-If the game does not start
---------------------------
+Troubleshooting
+---------------
 
-Run it from terminal to see errors:
+If the game fails to start, run the script from your terminal to view 
+any console output errors:
 
-   ./PopDrop
-
-Make sure all required SDL2 libraries are installed.
+   ./run.sh
 
 
 Credits
 -------
 
-Made by: Your Name
-Engine: SDL2
-Game: PopDrop
+Engine/Framework: SDL2 (and SDL2_image, SDL2_mixer)
 
-
-Enjoy!
+Enjoy the game!
