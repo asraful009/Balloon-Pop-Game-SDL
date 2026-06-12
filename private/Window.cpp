@@ -212,19 +212,42 @@ void Window::renderImage(const ImageItem &item, float x, float y)
     SDL_RenderCopy(m_renderer, item.texture, nullptr, &dstRect);
 }
 
-SDL_Texture *Window::loadTexture(const std::string &path)
+SDL_Texture *Window::loadTexture(const unsigned char *imageData, const int size)
 {
-    SDL_Texture *texture = IMG_LoadTexture(m_renderer, path.c_str());
-    if (!texture)
-        SDL_Log("Failed to load texture '%s': %s", path.c_str(), IMG_GetError());
+    SDL_RWops* rw = SDL_RWFromConstMem(imageData, size);
+    if (!rw)
+    {
+        SDL_Log("RWFromConstMem failed: %s", SDL_GetError());
+        return nullptr;
+    }
+    SDL_Surface *surface = IMG_LoadPNG_RW(rw);
+    if (!surface)
+    {
+        SDL_Log("IMG_LoadPNG_RW failed: %s", IMG_GetError());
+        SDL_RWclose(rw);
+        return nullptr;
+    }
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+
+    SDL_FreeSurface(surface);
+    SDL_RWclose(rw);
+
     return texture;
 }
 
-Mix_Chunk *Window::loadWav(const std::string &path)
+Mix_Chunk *Window::loadWav(const unsigned char *wavData, const int size)
 {
-    Mix_Chunk *chunk = Mix_LoadWAV(path.c_str());
+    SDL_RWops* rw = SDL_RWFromConstMem(wavData, size);
+    if (!rw)
+    {
+        SDL_Log("RWFromConstMem failed: %s", SDL_GetError());
+        return nullptr;
+    }
+    Mix_Chunk* chunk = Mix_LoadWAV_RW(rw, 1); 
     if (!chunk)
-        SDL_Log("Failed to load WAV file '%s': %s", path.c_str(), Mix_GetError());
+    {
+        SDL_Log("Mix_LoadWAV_RW failed: %s", Mix_GetError());
+        return nullptr;
+    }
     return chunk;
 }
-

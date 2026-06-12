@@ -85,12 +85,12 @@ int main()
     float timeAccumulator = 0.0f;
 
     std::vector<Balloon> balloons = {
-        Balloon(100.0f, h - 20.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
-        Balloon(200.0f, h - 30.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
-        Balloon(300.0f, h - 40.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
-        Balloon(400.0f, h - 10.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
-        Balloon(500.0f, h - 15.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
-        Balloon(600.0f, h - 05.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
+        Balloon(100.0f, h - 20.0f, win),
+        Balloon(200.0f, h - 30.0f, win),
+        Balloon(300.0f, h - 40.0f, win),
+        Balloon(400.0f, h - 10.0f, win),
+        Balloon(500.0f, h - 15.0f, win),
+        Balloon(600.0f, h - 05.0f, win),
     };
     bool previousLeft = false;
     float mx = .0f;

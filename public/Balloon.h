@@ -29,8 +29,7 @@ private:
     Mix_Chunk* popSound;
 
 public:
-    Balloon(Window *window);
-    Balloon(float x, float y, const std::string &image, const std::string &image_pop, Window *window);
+    Balloon(float x, float y, Window *window);
     ~Balloon() {
         // if (m_image) SDL_DestroyTexture(m_image);
         // if (m_image_pop) SDL_DestroyTexture(m_image_pop);
@@ -57,5 +56,6 @@ public:
     }
 
 private:
-    SDL_Texture *imageToTexture(std::string imagePath);
+    SDL_Texture *imageToTexture(const unsigned char *imageData, const int size);
+    Mix_Chunk *wavToSound(const unsigned char *wavData, const int size);
 };

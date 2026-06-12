@@ -4,23 +4,11 @@
 #include <iostream>
 #include "Window.h"
 #include <SDL2/SDL_mixer.h>
+#include "../images/balloon.h"
+#include "../images/balloon_pop.h"
+#include "../sounds/pop.h"
 
-Balloon::Balloon(Window *window)
-{
-    if (window == nullptr)
-    {
-        std::cerr << "Error: Window pointer is null in Balloon constructor.\n";
-        return;
-    }
-    m_pos = Pos{0.0f, 0.0f};
-    speed = rand() % 30 + 60.0f;
-    this->window = window;
-    m_image = imageToTexture("assets/balloon.png");
-    m_image_pop = imageToTexture("assets/balloon_pop.png");
-    popSound = window->loadWav("assets/pop.wav");
-}
-
-Balloon::Balloon(float x, float y, const std::string &image, const std::string &image_pop, Window *window)
+Balloon::Balloon(float x, float y, Window *window)
 {
     if (window == nullptr)
     {
@@ -31,13 +19,9 @@ Balloon::Balloon(float x, float y, const std::string &image, const std::string &
     m_initialPos = Pos{x, y};
     speed = rand() % 30 + 60.0f;
     this->window = window;
-    m_image = imageToTexture(image);
-    m_image_pop = imageToTexture(image_pop);
-    if (this->window == nullptr) {
-        std::cerr << "Error: Window pointer is null in Balloon constructor.\n";
-    } else {
-        popSound = window->loadWav("assets/pop.wav");
-    }
+    m_image = imageToTexture(balloon_png, balloon_png_len);
+    m_image_pop = imageToTexture(balloon_pop_png, balloon_pop_png_len);    
+    popSound = wavToSound(pop_wav, pop_wav_len);
 }
 
 void Balloon::move(float dt)
@@ -61,19 +45,35 @@ void Balloon::render() const
 {
 }
 
-SDL_Texture *Balloon::imageToTexture(std::string imagePath)
+SDL_Texture *Balloon::imageToTexture(const unsigned char *imageData, const int size)
 {
     if (window == nullptr)
     {
         std::cerr << "Error: Window pointer is null in Balloon constructor.\n";
         return nullptr;
     }
-    SDL_Texture *texture = window->loadTexture(imagePath);
+    SDL_Texture *texture = window->loadTexture(imageData, size);
     if (!texture)
     {
-        std::cerr << "Failed to load image: " << imagePath << "\n";
+        std::cerr << "Failed to load image\n";
     }
     return texture;
+}
+
+
+Mix_Chunk *Balloon::wavToSound(const unsigned char *imageData, const int size)
+{
+    if (window == nullptr)
+    {
+        std::cerr << "Error: Window pointer is null in Balloon constructor.\n";
+        return nullptr;
+    }
+    Mix_Chunk *chunk = window->loadWav(imageData, size);
+    if (!chunk)
+    {
+        std::cerr << "Failed to load sound\n";
+    }
+    return chunk;
 }
 
 bool Balloon::isPop(float mx, float my, int *score)

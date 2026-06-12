@@ -41,8 +41,8 @@ public:
     void drawLine(float x1, float y1, float x2, float y2, SDL_Color color);
     void drawImage(SDL_Texture *texture, float x, float y);
 
-    SDL_Texture *loadTexture(const std::string &path);
-    Mix_Chunk *loadWav(const std::string &path);
+    SDL_Texture *loadTexture(const unsigned char *imageData, const int size);
+    Mix_Chunk *loadWav(const unsigned char *wavData, const int size);
     void setUpdateCallback(UpdateCallback callback);
 
     SDL_Color hexToRGBA(uint32_t hexValue)
