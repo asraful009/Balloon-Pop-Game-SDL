@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include "Window.h"
+#include <SDL2/SDL_mixer.h>
 
 Balloon::Balloon(Window *window)
 {
@@ -15,6 +16,8 @@ Balloon::Balloon(Window *window)
     speed = rand() % 30 + 60.0f;
     this->window = window;
     m_image = imageToTexture("assets/balloon.png");
+    m_image_pop = imageToTexture("assets/balloon_pop.png");
+    popSound = window->loadWav("assets/pop.wav");
 }
 
 Balloon::Balloon(float x, float y, const std::string &image, const std::string &image_pop, Window *window)
@@ -30,6 +33,11 @@ Balloon::Balloon(float x, float y, const std::string &image, const std::string &
     this->window = window;
     m_image = imageToTexture(image);
     m_image_pop = imageToTexture(image_pop);
+    if (this->window == nullptr) {
+        std::cerr << "Error: Window pointer is null in Balloon constructor.\n";
+    } else {
+        popSound = window->loadWav("assets/pop.wav");
+    }
 }
 
 void Balloon::move(float dt)
@@ -79,6 +87,7 @@ bool Balloon::isPop(float mx, float my, int *score)
     {
         popped = true;
         (*score)++;
+        Mix_PlayChannel(-1, popSound, 0);
         return true;
     }
     return false;

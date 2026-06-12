@@ -3,6 +3,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include "Window.h"
 
 struct Pos
@@ -25,11 +26,19 @@ private:
     SDL_Texture *m_image_pop;
     bool popped = false;
     Window *window;
+    Mix_Chunk* popSound;
 
 public:
     Balloon(Window *window);
     Balloon(float x, float y, const std::string &image, const std::string &image_pop, Window *window);
-
+    ~Balloon() {
+        // if (m_image) SDL_DestroyTexture(m_image);
+        // if (m_image_pop) SDL_DestroyTexture(m_image_pop);
+        // if (popSound) { 
+        //     Mix_FreeChunk(popSound);
+        //     popSound = nullptr;
+        // }
+    }
     // Getters
     Pos getXY() const { return m_pos; };
     float getX() const { return m_pos.x; }

@@ -3,6 +3,7 @@
 #include "../fonts/NotoSanBenglaRegular.h"
 #include <iostream>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 Window::Window(const std::string &title, int width, int height)
 {
@@ -17,6 +18,12 @@ Window::Window(const std::string &title, int width, int height)
     if (TTF_Init() == -1)
     {
         std::cerr << "TTF_Init Error: " << TTF_GetError() << std::endl;
+    }
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        std::cerr << "SDL_mixer Error: " << Mix_GetError() << std::endl;
+        return;
     }
 
     m_window = SDL_CreateWindow(
@@ -212,3 +219,12 @@ SDL_Texture *Window::loadTexture(const std::string &path)
         SDL_Log("Failed to load texture '%s': %s", path.c_str(), IMG_GetError());
     return texture;
 }
+
+Mix_Chunk *Window::loadWav(const std::string &path)
+{
+    Mix_Chunk *chunk = Mix_LoadWAV(path.c_str());
+    if (!chunk)
+        SDL_Log("Failed to load WAV file '%s': %s", path.c_str(), Mix_GetError());
+    return chunk;
+}
+

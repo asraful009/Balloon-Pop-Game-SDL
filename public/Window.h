@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 struct TextItem
 {
@@ -41,6 +42,7 @@ public:
     void drawImage(SDL_Texture *texture, float x, float y);
 
     SDL_Texture *loadTexture(const std::string &path);
+    Mix_Chunk *loadWav(const std::string &path);
     void setUpdateCallback(UpdateCallback callback);
 
     SDL_Color hexToRGBA(uint32_t hexValue)

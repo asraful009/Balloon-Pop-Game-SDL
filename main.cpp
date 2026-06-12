@@ -125,18 +125,9 @@ int main()
             count++;
             timeAccumulator -= 1.0f; // Reset accumulator but keep leftovers
         }
-        std::string pos = "X: " + toBengaliNum(win->getMouseX()) + 
-                      "  Y: " + toBengaliNum(win->getMouseY());
-        win->drawText(pos, 50, 50, win->hexToRGBA(0x1B26FF));
-
-
-       
-
-        // Check left click
-        
-        
-
-        // win->drawText(getBengaliTime(), 10.0, 10.0, win->hexToRGBA(0x2228FF));
+        // std::string pos = "X: " + toBengaliNum(win->getMouseX()) + 
+        //               "  Y: " + toBengaliNum(win->getMouseY());
+        // win->drawText(pos, 50, 50, win->hexToRGBA(0x1B26FF));
         win->drawText("স্কোর: " + toBengaliNum(score) + " সময়: " + toBengaliNum(totalTime - count), 
             10.0, 10.0, win->hexToRGBA(0x2228FF));
         win->drawLine(10.0, 25.0, 200.0, 25.0, win->hexToRGBA(0x00ADB5));
@@ -152,6 +143,9 @@ int main()
         }
     });
     win->run();
+    // for (auto& balloon : balloons) {
+    //     delete balloon;
+    // }
     delete win;
     return 0;
 }
