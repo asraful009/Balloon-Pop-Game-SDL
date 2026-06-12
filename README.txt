@@ -9,11 +9,11 @@ How to Run (Linux x86_64)
 1. Open a terminal in this folder
 2. Make the game executable (only needed once):
 
-   chmod +x PopDrop.x86_64
+   chmod +x PopDrop
 
 3. Run the game:
 
-   ./PopDrop.x86_64
+   ./PopDrop
 
 
 Controls
@@ -40,7 +40,7 @@ If the game does not start
 
 Run it from terminal to see errors:
 
-   ./PopDrop.x86_64
+   ./PopDrop
 
 Make sure all required SDL2 libraries are installed.
 
