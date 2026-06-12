@@ -67,3 +67,8 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+PopDrop-itch/
+PopDrop-Linux-x86_64/
+PopDrop-Linux-x86_64.tar.gz
+PopDrop-Linux-x86_64.zip
