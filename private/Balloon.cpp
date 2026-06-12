@@ -12,6 +12,7 @@ Balloon::Balloon(Window *window)
         return;
     }
     m_pos = Pos{0.0f, 0.0f};
+    speed = rand() % 30 + 60.0f;
     this->window = window;
     m_image = imageToTexture("assets/balloon.png");
 }
@@ -25,6 +26,7 @@ Balloon::Balloon(float x, float y, const std::string &image, const std::string &
     }
     m_pos = Pos{x, y};
     m_initialPos = Pos{x, y};
+    speed = rand() % 30 + 60.0f;
     this->window = window;
     m_image = imageToTexture(image);
     m_image_pop = imageToTexture(image_pop);
@@ -39,7 +41,7 @@ void Balloon::move(float dt)
             popped = false;
         }
     } else {
-        m_pos.y += -60.0f * dt;
+        m_pos.y += -speed * dt;
         if (m_pos.y < -40.0f) {
             m_pos.y = window->getHeight() + 32 + rand() % 10; // Reset to bottom of the window
         }

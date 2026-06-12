@@ -20,6 +20,7 @@ class Balloon
 private:
     Pos m_pos;
     Pos m_initialPos;
+    float speed = 1.0f;
     SDL_Texture *m_image;
     SDL_Texture *m_image_pop;
     bool popped = false;
