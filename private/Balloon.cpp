@@ -33,6 +33,10 @@ void Balloon::move(float dt)
 {
     if (popped) {
         m_pos.y += +98.8*dt;
+        if (m_pos.y > window->getHeight()) {
+            m_pos.y = window->getHeight();
+            popped = false;
+        }
     } else {
         m_pos.y += -60.0f * dt;
         // m_pos.y += dy;
@@ -58,11 +62,17 @@ SDL_Texture *Balloon::imageToTexture(std::string imagePath)
     return texture;
 }
 
-bool Balloon::isPop(float mx, float my)
+bool Balloon::isPop(float mx, float my, int *score)
 {
-    if (mx >= m_pos.x && mx < m_pos.x + m_pos.w && my >= m_pos.y && my < m_pos.y + m_pos.h)
+    if (mx >= m_pos.x 
+        && mx < m_pos.x + m_pos.w 
+        && my >= m_pos.y 
+        && my < m_pos.y + m_pos.h
+        && !popped
+    )
     {
         popped = true;
+        (*score)++;
         return true;
     }
     return false;

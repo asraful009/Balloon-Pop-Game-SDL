@@ -38,7 +38,7 @@ public:
     // Utility
     void move(float dt);
     void render() const;
-    bool isPop(float mx, float my);
+    bool isPop(float mx, float my, int *score);
 
 private:
     SDL_Texture *imageToTexture(std::string imagePath);

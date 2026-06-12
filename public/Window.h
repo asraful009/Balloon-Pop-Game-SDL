@@ -55,6 +55,8 @@ public:
 
     float getMouseX() const { return static_cast<float>(m_mouseX); }
     float getMouseY() const { return static_cast<float>(m_mouseY); }
+    int getWidth() const { return m_window ? SDL_GetWindowSurface(m_window)->w : 0; }
+    int getHeight() const { return m_window ? SDL_GetWindowSurface(m_window)->h : 0; }
     bool isMouseButtonDown(int button) const { return m_mouseButtons & SDL_BUTTON(button); }
 
 private:

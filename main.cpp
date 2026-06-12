@@ -76,17 +76,22 @@ std::string getBengaliTime()
 int main()
 {
     int w = 800, h = 640;
+    int score = 0;
     Window *win = new Window("SDL 2 WIN", w, h);
     SDL_Color white = {255, 255, 255, 255};
-    // win->drawText("১২৩৪", 100, 50, white);
-    win->drawLine(100, 100, 150, 100, white);
     long count = 0;
+    long totalTime = 20;
     float timeAccumulator = 0.0f;
+
     std::vector<Balloon> balloons = {
         Balloon(100.0f, h - 20.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
         Balloon(200.0f, h - 30.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
-        Balloon(300.0f, h - 40.0f, "assets/balloon.png", "assets/balloon_pop.png", win)};
-
+        Balloon(300.0f, h - 40.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
+        Balloon(400.0f, h - 10.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
+        Balloon(500.0f, h - 15.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
+        Balloon(600.0f, h - 05.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
+    };
+    bool previousLeft = false;
     win->setUpdateCallback([&](float dt)
                            {
         SDL_Color red = {255, 0, 0, 255};
@@ -105,23 +110,28 @@ int main()
         win->drawLine(mx, my - 10, mx, my + 10, {0, 255, 0, 255}); // vertical
 
         // Check left click
-        bool leftClick = win->isMouseButtonDown(1);
-        if (leftClick) {
+        bool currentLeft = win->isMouseButtonDown(1);
+        bool leftClicked = currentLeft && !previousLeft;
+        previousLeft = currentLeft;
+        if (leftClicked) {
             win->drawText("ক্লিক!", mx + 15, my - 15, {255, 0, 0, 255});
         }
 
-        win->drawText(getBengaliTime(), 10.0, 10.0, win->hexToRGBA(0x2228FF));
+        // win->drawText(getBengaliTime(), 10.0, 10.0, win->hexToRGBA(0x2228FF));
+        win->drawText("স্কোর: " + toBengaliNum(score) + " সময়: " + toBengaliNum(totalTime - count), 
+            10.0, 10.0, win->hexToRGBA(0x2228FF));
         win->drawLine(10.0, 25.0, 200.0, 25.0, win->hexToRGBA(0x00ADB5));
         win->drawLine(10.0, 28.0, 200.0, 28.0, win->hexToRGBA(0x00ADB5)); 
         for (auto& balloon : balloons) {
-            if (leftClick) {
-                balloon.isPop(mx, my); // Check if balloon is popped by mouse click
+            if (leftClicked) {
+                balloon.isPop(mx, my, &score);
             }
             balloon.move(dt); 
             win->drawImage(balloon.getImage(), 
             static_cast<float>(balloon.getX()), 
             static_cast<float>(balloon.getY()));
-        } });
+        }
+    });
     win->run();
     delete win;
     return 0;
