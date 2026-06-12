@@ -24,6 +24,7 @@ Balloon::Balloon(float x, float y, const std::string &image, const std::string &
         return;
     }
     m_pos = Pos{x, y};
+    m_initialPos = Pos{x, y};
     this->window = window;
     m_image = imageToTexture(image);
     m_image_pop = imageToTexture(image_pop);

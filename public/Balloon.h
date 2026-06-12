@@ -19,6 +19,7 @@ class Balloon
 {
 private:
     Pos m_pos;
+    Pos m_initialPos;
     SDL_Texture *m_image;
     SDL_Texture *m_image_pop;
     bool popped = false;
@@ -39,6 +40,11 @@ public:
     void move(float dt);
     void render() const;
     bool isPop(float mx, float my, int *score);
+    void reset() {
+        m_pos.x = m_initialPos.x;
+        m_pos.y = m_initialPos.y;
+        popped = false;
+    }
 
 private:
     SDL_Texture *imageToTexture(std::string imagePath);

@@ -79,8 +79,9 @@ int main()
     int score = 0;
     Window *win = new Window("SDL 2 WIN", w, h);
     SDL_Color white = {255, 255, 255, 255};
+    SDL_Color red = win->hexToRGBA(0x000000);
     long count = 0;
-    long totalTime = 20;
+    long totalTime = 2;
     float timeAccumulator = 0.0f;
 
     std::vector<Balloon> balloons = {
@@ -92,9 +93,33 @@ int main()
         Balloon(600.0f, h - 05.0f, "assets/balloon.png", "assets/balloon_pop.png", win),
     };
     bool previousLeft = false;
-    win->setUpdateCallback([&](float dt)
-                           {
-        SDL_Color red = {255, 0, 0, 255};
+    float mx = .0f;
+    float my = .0f;
+    win->setUpdateCallback([&](float dt) {
+
+        bool currentLeft = win->isMouseButtonDown(1);
+        bool leftClicked = currentLeft && !previousLeft;
+        previousLeft = currentLeft;
+        mx = win->getMouseX();
+        my = win->getMouseY();
+        if (leftClicked) {      
+            win->drawLine(mx - 10, my, mx + 10, my, {0, 255, 0, 255}); // horizontal
+            win->drawLine(mx, my - 10, mx, my + 10, {0, 255, 0, 255}); // vertical      
+            win->drawText("ক্লিক!", mx + 15, my - 15, {255, 0, 0, 255});
+        }
+
+        if (count >= totalTime) {
+            win->drawText("সময় শেষ! আপনার স্কোর: " + toBengaliNum(score), (w / 2)-100, h / 2, red);
+            if (leftClicked) {
+                for (auto& balloon : balloons) {
+                    balloon.reset();
+                }
+                count = 0;
+                score = 0;
+
+            }
+            return; // Stop updating game logic after time is up
+        }
         timeAccumulator += dt; // Smoothly adds up fractions of seconds
         if (timeAccumulator >= 1.0f) { // Every 1 whole second
             count++;
@@ -104,18 +129,12 @@ int main()
                       "  Y: " + toBengaliNum(win->getMouseY());
         win->drawText(pos, 50, 50, win->hexToRGBA(0x1B26FF));
 
-        float mx = win->getMouseX();
-        float my = win->getMouseY();
-        win->drawLine(mx - 10, my, mx + 10, my, {0, 255, 0, 255}); // horizontal
-        win->drawLine(mx, my - 10, mx, my + 10, {0, 255, 0, 255}); // vertical
+
+       
 
         // Check left click
-        bool currentLeft = win->isMouseButtonDown(1);
-        bool leftClicked = currentLeft && !previousLeft;
-        previousLeft = currentLeft;
-        if (leftClicked) {
-            win->drawText("ক্লিক!", mx + 15, my - 15, {255, 0, 0, 255});
-        }
+        
+        
 
         // win->drawText(getBengaliTime(), 10.0, 10.0, win->hexToRGBA(0x2228FF));
         win->drawText("স্কোর: " + toBengaliNum(score) + " সময়: " + toBengaliNum(totalTime - count), 
