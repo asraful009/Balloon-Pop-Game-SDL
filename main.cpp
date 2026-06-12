@@ -77,7 +77,7 @@ int main()
 {
     int w = 800, h = 640;
     int score = 0;
-    Window *win = new Window("SDL 2 WIN", w, h);
+    Window *win = new Window("PopDrop.x86_64 V1.0", w, h);
     SDL_Color white = {255, 255, 255, 255};
     SDL_Color red = win->hexToRGBA(0x000000);
     long count = 0;

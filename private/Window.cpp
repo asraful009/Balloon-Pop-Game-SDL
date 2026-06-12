@@ -85,6 +85,13 @@ void Window::handleEvents()
         {
             m_running = false;
         }
+        else if (event.type == SDL_KEYDOWN)
+        {
+            if (event.key.keysym.sym == SDLK_ESCAPE)
+            {
+                m_running = false;
+            }
+        }
     }
     m_mouseButtons = SDL_GetMouseState(&m_mouseX, &m_mouseY);
 }

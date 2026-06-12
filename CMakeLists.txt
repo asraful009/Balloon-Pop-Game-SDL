@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(t3)
+project(PopDrop.x86_64)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -12,16 +12,16 @@ find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 
-add_executable(t3
+add_executable(PopDrop.x86_64
     main.cpp
     private/Window.cpp
     private/Balloon.cpp
 )
 
 # Add include path
-target_include_directories(t3 PRIVATE ${CMAKE_SOURCE_DIR}/public)
+target_include_directories(PopDrop.x86_64 PRIVATE ${CMAKE_SOURCE_DIR}/public)
 
-target_link_libraries(t3 PRIVATE 
+target_link_libraries(PopDrop.x86_64 PRIVATE 
     SDL2::SDL2-static
     SDL2_ttf::SDL2_ttf-static
     SDL2_image::SDL2_image-static
