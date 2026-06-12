@@ -81,7 +81,7 @@ int main()
     SDL_Color white = {255, 255, 255, 255};
     SDL_Color red = win->hexToRGBA(0x000000);
     long count = 0;
-    long totalTime = 2;
+    long totalTime = 20;
     float timeAccumulator = 0.0f;
 
     std::vector<Balloon> balloons = {

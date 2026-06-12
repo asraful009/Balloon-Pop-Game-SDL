@@ -34,12 +34,15 @@ void Balloon::move(float dt)
 {
     if (popped) {
         m_pos.y += +98.8*dt;
-        if (m_pos.y > window->getHeight()) {
-            m_pos.y = window->getHeight();
+        if (m_pos.y > window->getHeight() + 40) {
+            m_pos.y = m_pos.y - rand() % 10; // Random y position near the bottom
             popped = false;
         }
     } else {
         m_pos.y += -60.0f * dt;
+        if (m_pos.y < -40.0f) {
+            m_pos.y = window->getHeight() + 32 + rand() % 10; // Reset to bottom of the window
+        }
         // m_pos.y += dy;
     }
 }
